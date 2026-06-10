@@ -37,8 +37,8 @@ final class WarehouseController extends AbstractController
         ]);
     }
 
-    #[Route('/add', name: 'add', methods: ['GET', 'POST'])]
-    public function add(Request $request, EntityManagerInterface $em): Response
+    #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         $warehouse = new Warehouse();
 
@@ -56,12 +56,12 @@ final class WarehouseController extends AbstractController
             return $this->redirectToRoute('warehouse.detail', ['id' => $warehouse->getId(), 'slug' => $warehouse->getSlug()]);
         }
 
-        return $this->render('warehouse/add.html.twig', [
+        return $this->render('warehouse/create.html.twig', [
             'form' => $form,
         ]);
     }
 
-    #[Route('/edit/{id}-{slug}', name: 'edit', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS, 'slug' => Requirement::ASCII_SLUG])]
+    #[Route('/{id}-{slug}', name: 'edit', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS, 'slug' => Requirement::ASCII_SLUG])]
     public function edit(Warehouse $warehouse, Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(WarehouseType::class, $warehouse);
@@ -89,7 +89,7 @@ final class WarehouseController extends AbstractController
         return $this->redirectToRoute('warehouse.index');
     } */
 
-    #[Route('/delete/{id}', name: 'delete', methods: ['DELETE'], requirements: ['id' => Requirement::DIGITS])]
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'], requirements: ['id' => Requirement::DIGITS])]
     public function delete(Warehouse $warehouse, EntityManagerInterface $em): Response
     {
         $em->remove($warehouse);
