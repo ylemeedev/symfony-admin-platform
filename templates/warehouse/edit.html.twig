@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	Ajout d'un produit
+{% block title %}{{ warehouse.name }}
 {% endblock %}
 
 {% block body %}
 	<div class="my-6">
-		{% include './product/form.html.twig' %}
+		{% include 'warehouse/form.html.twig' %}
 	</div>
 {% endblock %}

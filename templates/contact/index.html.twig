@@ -47,6 +47,22 @@
 			</div>
 
 			<div>
+				{{ form_label(form.service, 'Service', {
+                label_attr: {
+                    class: 'block mb-2 text-sm font-medium text-gray-700'
+                }
+            }) }}
+
+				{{ form_widget(form.service, {
+                attr: {
+                    class: 'w-full border border-gray-300 rounded-lg px-4 py-2 focus:border-blue-500 focus:ring focus:ring-blue-200'
+                }
+            }) }}
+
+				{{ form_errors(form.service) }}
+			</div>
+
+			<div>
 				{{ form_label(form.message, 'Message', {
                 label_attr: {
                     class: 'block mb-2 text-sm font-medium text-gray-700'

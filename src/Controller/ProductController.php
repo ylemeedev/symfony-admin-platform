@@ -10,27 +10,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
+#[Route('/product', name: 'product.')]
 final class ProductController extends AbstractController
 {
-    public function __construct(private ProductRepository $repository)
+    public function __construct(private ProductRepository $productRepository)
     {
     }
 
-    #[Route('/product', name: 'product.index')]
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
-        $products = $this->repository->findAll();
+        $products = $this->productRepository->findAll();
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
         ]);
     }
 
-    #[Route('/product/detail/{id}-{slug}', name: 'product.detail', requirements: ['id' => '\d+', 'slug' => '[a-z0-9]+(?:-[a-z0-9]+)*'])]
+    #[Route('/detail/{id}-{slug}', name: 'detail', requirements: ['id' => Requirement::DIGITS, 'slug' => Requirement::ASCII_SLUG])]
     public function detail(int $id): Response
     {
-        $product = $this->repository->find($id);
+        $product = $this->productRepository->find($id);
 
         // Si pas de produit, retour à la liste des produits
         if (!$product) {
@@ -42,7 +44,7 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/add', name: 'product.add')]
+    #[Route('/add', name: 'add', methods: ['GET', 'POST'])]
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         $product = new Product();
@@ -66,10 +68,10 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/edit/{id}-{slug}', name: 'product.edit', methods: ['GET', 'POST'], requirements: ['id' => '\d+', 'slug' => '[a-z0-9]+(?:-[a-z0-9]+)*'])]
+    #[Route('/edit/{id}-{slug}', name: 'edit', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS, 'slug' => Requirement::ASCII_SLUG])]
     public function edit(Request $request, EntityManagerInterface $em, int $id): Response
     {
-        $product = $this->repository->find($id);
+        $product = $this->productRepository->find($id);
 
         // Si pas de produit, retour à la liste des produits
         if (!$product) {
@@ -94,7 +96,7 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/delete/{id}', name: 'product.delete', methods: ['DELETE'], requirements: ['id' => '\d+'])]
+    #[Route('/delete/{id}', name: 'delete', methods: ['DELETE'], requirements: ['id' => Requirement::DIGITS])]
     public function delete(EntityManagerInterface $em, Product $product): Response
     {
         $em->remove($product);

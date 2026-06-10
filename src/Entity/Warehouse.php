@@ -6,8 +6,11 @@ use App\Repository\WarehouseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WarehouseRepository::class)]
+#[UniqueEntity('slug')]
 class Warehouse
 {
     #[ORM\Id]
@@ -16,10 +19,19 @@ class Warehouse
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 3)]
+    private string $name;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $address = null;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 3)]
+    private string $address;
+
+    #[ORM\Column(length: 100, unique: true)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 1, max: 100)]
+    private string $slug;
 
     /**
      * @var Collection<int, Stock>
@@ -124,6 +136,18 @@ class Warehouse
                 $stockMovement->setWarehouse(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

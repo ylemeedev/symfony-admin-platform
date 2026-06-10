@@ -12,7 +12,7 @@
 					<span class="sr-only">Your Company</span>
 					<img src="https://readymadeui.com/logo-alt.svg" alt="readymadeui logo" class="h-9 w-auto"/>
 				</a>
-				
+
 				<button type="button" aria-controls="collapseMenu" id="toggleClose" class="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
 					<span class="sr-only">Close main menu</span>
 					<svg xmlns="http://www.w3.org/2000/svg" class="size-4 fill-slate-900 dark:fill-slate-50" aria-hidden="true" viewbox="0 0 329.269 329">
@@ -22,23 +22,44 @@
 			</div>
 
 			<ul class="flex flex-col gap-8 font-semibold text-sm text-slate-900 dark:text-slate-50 lg:flex-row max-lg:p-6 lg:ml-12">
-				<li>
+{# 				<li>
 					<a href="{{ path('home.index') }}" class="{{ app.current_route == 'home.index' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Accueil</a>
-				</li>
+				</li> #}
 				<li>
 					<a href="{{ path('product.index') }}" class="{{ app.current_route starts with 'product.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Produits</a>
 				</li>
 				<li>
-					<a href="{{ path('contact.index') }}" class="{{ app.current_route starts with 'product.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Contact</a>
+					<a href="{{ path('customer.index') }}" class="{{ app.current_route starts with 'customer.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Clients</a>
+				</li>
+				<li>
+					<a href="{{ path('purchase_order.index') }}" class="{{ app.current_route starts with 'purchase_order.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Bon de commande</a>
+				</li>
+				<li>
+					<a href="{{ path('sales_order.index') }}" class="{{ app.current_route starts with 'sales_order.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Commande client</a>
+				</li>
+				<li>
+					<a href="{{ path('stock.index') }}" class="{{ app.current_route starts with 'stock.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Stock</a>
+				</li>
+				<li>
+					<a href="{{ path('stock_movement.index') }}" class="{{ app.current_route starts with 'stock_movement.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Mouvement des stocks</a>
+				</li>
+				<li>
+					<a href="{{ path('supplier.index') }}" class="{{ app.current_route starts with 'supplier.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Fournisseur</a>
+				</li>
+				<li>
+					<a href="{{ path('warehouse.index') }}" class="{{ app.current_route starts with 'warehouse.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Entrepôts</a>
+				</li>
+				<li>
+					<a href="{{ path('contact.index') }}" class="{{ app.current_route starts with 'contact.' ? 'text-blue-400' : 'text-slate-900 dark:text-slate-50' }} hover:text-blue-700 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Contact</a>
 				</li>
 			</ul>
 		</div>
 
 		<div class="flex items-center gap-4 ml-auto">
 			<a href="#" class="text-slate-900 text-sm font-semibold hover:text-blue-700 dark:text-slate-50 dark:hover:text-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">Log
-												            in</a>
+																				            in</a>
 			<a href="#" class="py-2 px-3.5 text-sm rounded-md font-semibold cursor-pointer text-white border border-blue-600 bg-blue-600 hover:bg-blue-700 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500">Sign
-												            up</a>
+																				            up</a>
 
 			<button type="button" aria-controls="collapseMenu" aria-expanded="false" aria-haspopup="true" id="toggleOpen" class="cursor-pointer lg:hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
 				<span class="sr-only">Open main menu</span>

@@ -7,11 +7,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ContactDto
 {
     #[Assert\NotBlank()]
-    public ?string $name = null;
+    #[Assert\Length(min: 3, max: 50)]
+    public string $name = '';
 
     #[Assert\NotBlank()]
-    public ?string $email = null;
+    #[Assert\Email(
+        message: 'L\'adresse e-mail {{ value }} n\'est pas valide.'
+    )]
+    public string $email = '';
 
     #[Assert\NotBlank()]
-    public ?string $message = null;
+    public string $service = '';
+
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 3, max: 500)]
+    public string $message = '';
 }
