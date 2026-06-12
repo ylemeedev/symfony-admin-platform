@@ -19,7 +19,7 @@ class ProductService
         return $product;
     }
 
-    public function update(Product $product): void
+    public function update(): void
     {
         $this->em->flush();
     }

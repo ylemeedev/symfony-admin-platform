@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Warehouse;
 use App\Form\WarehouseType;
 use App\Repository\WarehouseRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\WarehouseService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Requirement\Requirement;
 #[Route('/warehouse', name: 'warehouse.')]
 final class WarehouseController extends AbstractController
 {
-    public function __construct(private WarehouseRepository $warehouseRepository)
+    public function __construct(private WarehouseRepository $warehouseRepository, private WarehouseService $warehouseService)
     {
     }
 
@@ -38,7 +38,7 @@ final class WarehouseController extends AbstractController
     }
 
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $em): Response
+    public function create(Request $request): Response
     {
         $warehouse = new Warehouse();
 
@@ -47,9 +47,7 @@ final class WarehouseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $warehouse = $form->getData();
-            $em->persist($warehouse);
-            $em->flush();
+            $this->warehouseService->create($warehouse);
 
             $this->addFlash('success', 'L\'entrepôt a été ajouté');
 
@@ -62,13 +60,13 @@ final class WarehouseController extends AbstractController
     }
 
     #[Route('/{id}-{slug}', name: 'edit', methods: ['GET', 'POST'], requirements: ['id' => Requirement::DIGITS, 'slug' => Requirement::ASCII_SLUG])]
-    public function edit(Warehouse $warehouse, Request $request, EntityManagerInterface $em): Response
+    public function edit(Warehouse $warehouse, Request $request): Response
     {
         $form = $this->createForm(WarehouseType::class, $warehouse);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->flush();
+            $this->warehouseService->update();
 
             $this->addFlash('success', 'L\'entrepôt a été mis à jour');
 
@@ -81,19 +79,10 @@ final class WarehouseController extends AbstractController
         ]);
     }
 
-/*     #[Route('/disabled/{id}', name: 'delete', methods: ['DELETE'], requirements: ['id' => Requirement::DIGITS])]
-    public function disabled(Warehouse $warehouse, EntityManagerInterface $em): Response
-    {
-
-
-        return $this->redirectToRoute('warehouse.index');
-    } */
-
     #[Route('/{id}', name: 'delete', methods: ['DELETE'], requirements: ['id' => Requirement::DIGITS])]
-    public function delete(Warehouse $warehouse, EntityManagerInterface $em): Response
+    public function delete(Warehouse $warehouse): Response
     {
-        $em->remove($warehouse);
-        $em->flush();
+        $this->warehouseService->remove($warehouse);
 
         $this->addFlash('success', 'L\'entrepôt à été supprimé');
 

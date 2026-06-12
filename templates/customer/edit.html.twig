@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ customer.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="my-6">
+		{% include 'customer/form.html.twig' %}
+	</div>
+{% endblock %}

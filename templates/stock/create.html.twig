@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Ajout d'un produit en stock
+{% endblock %}
+
+{% block body %}
+	<div class="my-10">
+		<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow space-y-6">
+
+			{{ form_start(form, { method: 'POST', attr: { class: 'space-y-6' } }) }}
+
+			{# HEADER CONTEXTUEL #}
+			<div class="border-b pb-5 mb-6 text-center">
+				<h1 class="text-2xl font-bold text-slate-900 tracking-tight">
+					{{ product.name }}
+				</h1>
+			</div>
+
+			{# ENTREPÔT #}
+			<div>
+				{{ form_label(form.warehouse, 'Entrepôt', {
+					label_attr: {
+						class: 'block text-sm font-medium text-slate-700 mb-1'
+					}
+				}) }}
+
+				{{ form_widget(form.warehouse, {
+					attr: {
+						class: 'w-full px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-indigo-500'
+					}
+				}) }}
+
+				<div class="mt-1 text-sm text-red-600">
+					{{ form_errors(form.warehouse) }}
+				</div>
+			</div>
+
+			{# QUANTITÉ #}
+			<div>
+				{{ form_label(form.quantity, 'Quantité', {
+					label_attr: {
+						class: 'block text-sm font-medium text-slate-700 mb-1'
+					}
+				}) }}
+
+				{{ form_widget(form.quantity, {
+					attr: {
+						class: 'w-full px-3 py-2 rounded-lg border border-slate-300 focus:border-indigo-500 focus:ring-indigo-500'
+					}
+				}) }}
+
+				<div class="mt-1 text-sm text-red-600">
+					{{ form_errors(form.quantity) }}
+				</div>
+			</div>
+
+			{# BUTTON #}
+			<div class="pt-2">
+				{{ form_widget(form.save, {
+					attr: {
+						class: 'w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition'
+					}
+				}) }}
+			</div>
+
+			{{ form_rest(form) }}
+			{{ form_end(form) }}
+
+		</div>
+	</div>
+{% endblock %}

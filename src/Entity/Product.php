@@ -39,7 +39,7 @@ class Product
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotBlank()]
-    #[Assert\PositiveOrZero(message: 'La valeur ne peut pas être négative')]
+    #[PositiveOrZero(message: 'La valeur ne peut pas être négative')]
     private ?string $price = null;
 
     #[ORM\Column]
@@ -79,7 +79,7 @@ class Product
      */
     #[ORM\OneToMany(targetEntity: SalesOrderLine::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $salesOrderLines;
-
+    
     public function __construct()
     {
         $this->stocks = new ArrayCollection();

@@ -1,20 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SupplierController!{% endblock %}
+{% block title %}
+	Fournisseur
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<div class="overflow-x-auto px-4 md:px-8 mt-6">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+		<a href="{{ path('supplier.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-700 transition">
+			+ Ajouter un fournisseur
+		</a>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/ERP/src/Controller/SupplierController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/ERP/templates/supplier/index.html.twig</code></li>
-    </ul>
-</div>
+		<table class="w-full max-w-7xl mx-auto mt-4">
+			<thead class="text-slate-900 text-left text-sm font-semibold border-b border-slate-300 whitespace-nowrap">
+				<tr>
+					<th scope="col" class="pl-0 px-3 py-3.5">
+						Nom
+					</th>
+					<th scope="col" class="px-3 py-3.5">
+						Email
+					</th>
+					<th scope="col" class="px-3 py-3.5">
+						Téléphone
+					</th>
+					<th scope="col" class="pr-0 px-3 py-3.5">
+						Actions
+					</th>
+				</tr>
+			</thead>
+
+			<tbody class="text-sm divide-y divide-slate-200">
+				{% for s in suppliers %}
+					<tr>
+						<td class="pl-0 px-3 py-4 font-medium text-slate-900 whitespace-nowrap">
+							{{ s.name }}
+						</td>
+
+						<td class="px-3 py-4 text-slate-500">
+							{{ s.email }}
+						</td>
+
+						<td class="px-3 py-4 text-slate-500">
+							{{ s.phone }}
+						</td>
+						<td
+							class="pr-0 px-3 py-4 flex gap-2">
+							<!-- Modifier -->
+							<a href="{{ path('supplier.edit', {id: s.id}) }}" class="w-9 h-9 flex items-center justify-center bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" title="Modifier">
+								<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"/>
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+								</svg>
+							</a>
+
+							<!-- Supprimer -->
+							<form action="{{ path('supplier.delete', {id: s.id}) }}" method="post">
+								<input type="hidden" name="_method" value="DELETE"/>
+								<button type="submit" class="w-9 h-9 flex items-center justify-center bg-red-600 text-white rounded-lg shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer" title="Supprimer">
+									<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+									</svg>
+								</button>
+							</form>
+						</td>
+
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="3" class="py-6 text-center text-slate-500">
+							Aucun fournisseurs trouvés.
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</div>
 {% endblock %}

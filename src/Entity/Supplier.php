@@ -6,6 +6,7 @@ use App\Repository\SupplierRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SupplierRepository::class)]
 class Supplier
@@ -13,16 +14,22 @@ class Supplier
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
-
+    private int $id;
+    
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 2)]
+    private string $name;
 
     #[ORM\Column(length: 50)]
-    private ?string $email = null;
-
+    #[Assert\NotBlank()]
+    #[Assert\Email()]
+    private string $email;
+    
     #[ORM\Column(length: 20)]
-    private ?string $phone = null;
+    #[Assert\NotBlank()]
+    #[Assert\Regex(pattern: '/^[0-9]+$/')]
+    private string $phone;
 
     /**
      * @var Collection<int, PurchaseOrder>

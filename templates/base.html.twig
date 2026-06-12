@@ -19,12 +19,15 @@
 			<script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
 			<script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
 		{% endif %}
+
+		{% block head %}{% endblock %}
 	</head>
 	<body class="bg-slate-50">
 		{% include "./shared/navbar.html.twig" %}
 
 		{% include "./shared/flash.html.twig" %}
 
-		<div class="w-full max-w-6xl mx-auto px-4"> {% block body %}{% endblock %}</div>
+		<div class="w-full max-w-6xl mx-auto px-4 pb-20"> {% block body %}{% endblock %}
+			</div>
 		</body>
 	</html>

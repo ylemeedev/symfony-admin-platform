@@ -1,77 +1,140 @@
 {% extends 'base.html.twig' %}
 
+{% import 'shared/table/table.macro.html.twig' as table  %}
+
 {% block title %}
 	Produits
 {% endblock %}
 
+{% block head %}
+	{{ knp_pagination_rel_links(products) }}
+{% endblock %}
+
 {% block body %}
-	<div class="overflow-x-auto px-4 md:px-8 mt-6">
+	<div
+		class="max-w-7xl mx-auto px-4 md:px-8 mt-6">
 
-		<a href="{{ path('product.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-700 transition">
-			+ Ajouter un produit
-		</a>
+		<!-- Header -->
+		<div class="flex items-center justify-between mb-4">
+			<a href="{{ path('product.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-700 transition">
+				+ Ajouter un produit
+			</a>
 
-		<table class="w-full max-w-7xl mx-auto">
-			<thead class="text-slate-900 text-left text-sm font-semibold border-b border-slate-300 whitespace-nowrap">
-				<tr>
-					<th scope="col" class="pl-0 px-3 py-3.5">Nom</th>
-					<th scope="col" class="px-3 py-3.5">Déscription</th>
-					<th scope="col" class="px-3 py-3.5">Prix</th>
-					<th scope="col" class="px-3 py-3.5">Stock minimum</th>
-					<th scope="col" class="pr-0 px-3 py-3.5">Actions</th>
-				</tr>
-			</thead>
+			<div class="text-sm text-slate-500">
+				{{ products.getTotalItemCount }}
+				produits
+			</div>
+		</div>
 
-			<tbody class="text-sm divide-y divide-slate-200">
-				{% for p in products %}
+		<!-- Table wrapper -->
+		<div class="overflow-x-auto bg-white shadow rounded-lg">
+			<table class="w-full text-sm">
+				<thead class="bg-indigo-600 text-white text-left border-b border-slate-200 whitespace-nowrap">
 					<tr>
-						<td class="pl-0 px-3 py-4 font-medium text-slate-900 whitespace-nowrap" title="{{ p.name }}">
-							{{ p.name | length > 40 ? p.name | slice(0, 40) ~ '...' : p.name }}
-						</td>
-						<td class="px-3 py-4 text-slate-500">
-							{{ p.description | length > 50 ? p.description | slice(0, 40) ~ '...' : p.description }}
-						</td>
-						<td class="px-3 py-4 text-slate-500">
-							{{ p.price }}
-						</td>
-						<td class="px-3 py-4 text-slate-500">
-							{{ p.minimumStock }}
-						</td>
-						<td
-							class="pr-0 px-3 py-4 flex gap-2">
+						<th class="pl-3 px-4 py-3 font-semibold">
+							{{ table.th(products, 'Nom', 'p.name') }}
+						</th>
 
-							<!-- Voir -->
-							<a href="{{ path('product.detail', {id: p.id, slug: p.slug}) }}" class="w-9 h-9 flex items-center justify-center bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Voir le détail">
-								<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5
-													     c4.478 0 8.268 2.943 9.542 7
-													     -1.274 4.057-5.064 7-9.542 7
-													     -4.477 0-8.268-2.943-9.542-7z"/>
-								</svg>
-							</a>
+						<th class="px-4 py-3 font-semibold">
+							{{ table.th(products, 'Prix', 'p.price') }}
+						</th>
 
-							<!-- Modifier -->
-							<a href="{{ path('product.edit', {id: p.id, slug: p.slug}) }}" class="w-9 h-9 flex items-center justify-center bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" title="Modifier">
-								<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"/>
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-								</svg>
-							</a>
+						<th class="px-4 py-3 font-semibold">
+							{{ table.th(products, 'Nom', 'p.name') }}
+						</th>
 
-							<!-- Supprimer -->
-							<form action={{ path('product.delete', {id: p.id} ) }} method="post">
-								<input type="hidden" name="_method" value="DELETE"/>
-								<button type="submit" class="w-9 h-9 flex items-center justify-center bg-red-600 text-white rounded-lg shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer" title="Supprimer">
-									<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-									</svg>
-								</button>
-							</form>
-						</td>
+						<th class="px-4 py-3 font-semibold">
+							{{ table.th(products, 'Stock minimum', 'p.minimumStock') }}
+						</th>
+
+						<th class="pr-3 px-4 py-3 font-semibold text-right">
+							Actions
+						</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+				</thead>
+
+				<tbody class="divide-y divide-slate-100 text-sm">
+					{% for p in products %}
+						{% set isLowStock = p.totalStock < p.product.minimumStock %}
+						<tr
+							class="hover:bg-slate-50 transition">
+
+							<!-- Nom -->
+							<td class="pl-3 px-4 py-3 w-3/8 font-medium text-slate-900 whitespace-nowrap">
+								{{ p.product.name }}
+							</td>
+
+							<!-- Prix -->
+							<td class="px-4 py-3 w-1/8 text-slate-600 whitespace-nowrap">
+								{{ p.product.price }}
+								€
+							</td>
+
+							<!-- Stock total -->
+							<td class="px-4 py-3 w-1/8 font-semibold {{ isLowStock ? 'text-red-600' : 'text-slate-600' }}">
+								<div class="flex justify-between items-center">
+									{{ p.totalStock }}
+
+									{% if isLowStock %}
+										<span class="ml-2 text-xs font-normal text-red-500 whitespace-nowrap">
+											⚠ faible
+										</span>
+									{% endif %}
+								</div>
+							</td>
+
+							<!-- Stock minimum -->
+							<td class="px-4 py-3 w-1/8 text-slate-500">
+								{{ p.product.minimumStock }}
+							</td>
+
+							<!-- Actions -->
+							<td class="pr-3 px-4 py-3">
+								<div
+									class="flex justify-end gap-2">
+
+									<!-- Voir -->
+									<a href="{{ path('product.detail', {id: p.product.id, slug: p.product.slug}) }}" class="w-9 h-9 flex items-center justify-center bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" title="Voir le détail">
+										<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5
+																																																																																																																																				                                                                                     c4.478 0 8.268 2.943 9.542 7
+																																																																																																																																				                                                                                     -1.274 4.057-5.064 7-9.542 7
+																																																																																																																																				                                                                                     -4.477 0-8.268-2.943-9.542-7z"/>
+										</svg>
+									</a>
+
+									<!-- Modifier -->
+									<a href="{{ path('product.edit', {id: p.product.id, slug: p.product.slug}) }}" class="w-9 h-9 flex items-center justify-center bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" title="Modifier">
+										<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5"/>
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+										</svg>
+									</a>
+
+									<!-- Supprimer -->
+									<form action="{{ path('product.delete', {id: p.product.id}) }}" method="post">
+										<input type="hidden" name="_method" value="DELETE"/>
+
+										<button type="submit" class="w-9 h-9 flex items-center justify-center bg-red-600 text-white rounded-lg shadow hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 cursor-pointer" title="Supprimer">
+											<svg class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+											</svg>
+										</button>
+									</form>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Pagination -->
+		<div class="mt-6 flex justify-center">
+			<div class="flex gap-1 text-sm">
+				{{ knp_pagination_render(products) }}
+			</div>
+		</div>
 	</div>
 {% endblock %}

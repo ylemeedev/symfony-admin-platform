@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\ProductStockDto;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,25 @@ class ProductRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
+    }
+
+    public function findAllWithTotalStock()
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.stocks', 's')
+            ->select('p AS product')
+            ->addSelect('COALESCE(SUM(s.quantity), 0) AS totalStock')
+            ->groupBy('p.id');
+/*             ->getQuery()
+            ->getResult();
+
+        return array_map(
+            fn (array $row) => new ProductStockDto(
+                $row['product'],
+                (int) $row['totalStock']
+            ),
+            $rows
+        ); */
     }
 
     //    /**
